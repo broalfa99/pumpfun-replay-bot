@@ -45,14 +45,14 @@ import {
 const STAKE_LAMPORTS = LAMPORTS_PER_SOL / 20n; // 0.05 SOL per coin.
 const MIN_BUY_LAMPORTS = LAMPORTS_PER_SOL / 50n; // 0.02 SOL: cap must allow this.
 const MAX_SLIPPAGE_BPS = 10_000; // Wide open: never refuse a fill on latency drift.
-const ENTRY_MIN_BPS = 2_000n; // Buy only once the price is up >= +20% from create.
-const ENTRY_MAX_BPS = 8_000n; // ... and not already up more than +80% (no chasing tops).
-const ENTRY_MAX_TRADES = 60; // Entry window: the coin's first 60 trades.
-const TAKE_PROFIT_BPS = 3_000n; // Sell all at +30% vs the buy price.
-const STOP_LOSS_BPS = -1_000n; // Sell all at -10% vs the buy price.
-const TRAIL_ARM_BPS = 2_000n; // Trailing stop arms once the peak is +20%.
-const TRAIL_DROP_BPS = 1_000n; // ... then sell on a 10% fall from the peak.
-const MAX_HOLD_SLOTS = 3_000; // Timeout: sell after ~20 minutes in a position.
+const ENTRY_MIN_BPS = 100n; // Buy almost at birth: price up >= +1% from create.
+const ENTRY_MAX_BPS = 3_000n; // ... and not already up more than +30%.
+const ENTRY_MAX_TRADES = 10; // Entry window: the coin's first 10 trades.
+const TAKE_PROFIT_BPS = 1_500n; // Sell all at +15% vs the buy price.
+const STOP_LOSS_BPS = -800n; // Sell all at -8% vs the buy price.
+const TRAIL_ARM_BPS = 1_200n; // Trailing stop arms once the peak is +12%.
+const TRAIL_DROP_BPS = 500n; // ... then sell on a 5% fall from the peak.
+const MAX_HOLD_SLOTS = 600; // Timeout: sell after ~4 minutes in a position.
 
 /** Gain of price (q/t) versus base price (q0/t0), in basis points. */
 function gainBps(q: bigint, t: bigint, q0: bigint, t0: bigint): bigint {
@@ -199,7 +199,7 @@ await runBot({
       );
       if (gain < ENTRY_MIN_BPS || gain > ENTRY_MAX_BPS) continue;
       const buys = c.recentBuys.filter(Boolean).length;
-      if (buys < 3 || c.recentBuys.length < 3) continue; // Need 3 of the last 3 trades to be buys.
+      if (buys < 2) continue; // Need 2 of the last 3 trades to be buys.
       const cap = state.maxBuyLamports(e.mint);
       if (cap < MIN_BUY_LAMPORTS) continue;
       const amount = cap < STAKE_LAMPORTS ? cap : STAKE_LAMPORTS;
