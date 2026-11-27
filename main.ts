@@ -45,13 +45,13 @@ import {
 const STAKE_LAMPORTS = LAMPORTS_PER_SOL / 20n; // 0.05 SOL per coin.
 const MIN_BUY_LAMPORTS = LAMPORTS_PER_SOL / 50n; // 0.02 SOL: cap must allow this.
 const MAX_SLIPPAGE_BPS = 10_000; // Wide open: never refuse a fill on latency drift.
-const ENTRY_MIN_BPS = 800; // Buy only once the price is up >= +8% from create.
-const ENTRY_MAX_BPS = 8_000; // ... and not already up more than +80% (no chasing tops).
+const ENTRY_MIN_BPS = 800n; // Buy only once the price is up >= +8% from create.
+const ENTRY_MAX_BPS = 8_000n; // ... and not already up more than +80% (no chasing tops).
 const ENTRY_MAX_TRADES = 60; // Entry window: the coin's first 60 trades.
-const TAKE_PROFIT_BPS = 5_000; // Sell all at +50% vs the buy price.
-const STOP_LOSS_BPS = -2_000; // Sell all at -20% vs the buy price.
-const TRAIL_ARM_BPS = 3_000; // Trailing stop arms once the peak is +30%.
-const TRAIL_DROP_BPS = 1_500; // ... then sell on a 15% fall from the peak.
+const TAKE_PROFIT_BPS = 5_000n; // Sell all at +50% vs the buy price.
+const STOP_LOSS_BPS = -2_000n; // Sell all at -20% vs the buy price.
+const TRAIL_ARM_BPS = 3_000n; // Trailing stop arms once the peak is +30%.
+const TRAIL_DROP_BPS = 1_500n; // ... then sell on a 15% fall from the peak.
 const MAX_HOLD_SLOTS = 6_000; // Timeout: sell after ~40 minutes in a position.
 
 /** Gain of price (q/t) versus base price (q0/t0), in basis points. */
