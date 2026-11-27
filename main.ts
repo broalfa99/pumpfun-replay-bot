@@ -48,11 +48,11 @@ const MAX_SLIPPAGE_BPS = 10_000; // Wide open: never refuse a fill on latency dr
 const ENTRY_MIN_BPS = 100n; // Buy almost at birth: price up >= +1% from create.
 const ENTRY_MAX_BPS = 2_000n; // ... and not already up more than +20%.
 const ENTRY_MAX_TRADES = 8; // Entry window: the coin's first 8 trades.
-const TAKE_PROFIT_BPS = 1_000n; // Sell all at +10% vs the buy price.
-const STOP_LOSS_BPS = -500n; // Sell all at -5% vs the buy price.
-const TRAIL_ARM_BPS = 800n; // Trailing stop arms once the peak is +8%.
-const TRAIL_DROP_BPS = 400n; // ... then sell on a 4% fall from the peak.
-const MAX_HOLD_SLOTS = 300; // Timeout: sell after ~2 minutes in a position.
+const TAKE_PROFIT_BPS = 1_200n; // Sell all at +12% vs the buy price.
+const STOP_LOSS_BPS = -400n; // Sell all at -4% vs the buy price.
+const TRAIL_ARM_BPS = 1_000n; // Trailing stop arms once the peak is +10%.
+const TRAIL_DROP_BPS = 300n; // ... then sell on a 3% fall from the peak.
+const MAX_HOLD_SLOTS = 240; // Timeout: sell after ~96 seconds in a position.
 
 /** Gain of price (q/t) versus base price (q0/t0), in basis points. */
 function gainBps(q: bigint, t: bigint, q0: bigint, t0: bigint): bigint {
