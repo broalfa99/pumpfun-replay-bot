@@ -14,18 +14,18 @@
 // Rules (all deterministic — a pure function of the replayed events, no
 // clock, no randomness, no environment; two runs produce identical orders):
 //   BUY  (one per mint, 0.05 SOL stake):
-//     - price (virtual SOL / virtual token) up between +8% and +80% versus
-//       the CreateEvent price, seen within the coin's first 60 trades;
+//     - price (virtual SOL / virtual token) up between +1% and +20% versus
+//       the CreateEvent price, seen within the coin's first 8 trades;
 //     - at least 2 of its last 3 trades are buys (real buying pressure,
 //       not one wash trade);
 //     - the size cap lets it buy at least 0.02 SOL;
 //     - a free position slot and enough free cash.
 //   SELL (the whole holding, first rule that fires):
-//     - take profit at +50% versus the buy price;
-//     - stop loss at -20% versus the buy price;
-//     - trailing exit: once the peak is +30% or better, sell if the price
-//       falls 15% or more below that peak;
-//     - timeout: sell after 6000 slots (~40 minutes) whatever the price.
+//     - take profit at +10% versus the buy price;
+//     - stop loss at -5% versus the buy price;
+//     - trailing exit: once the peak is +8% or better, sell if the price
+//       falls 4% or more below that peak;
+//     - timeout: sell after 300 slots (~2 minutes) whatever the price.
 //   The harness closes positions itself when a curve completes, so the bot
 //   never needs a sell for those.
 //
@@ -48,11 +48,11 @@ const MAX_SLIPPAGE_BPS = 10_000; // Wide open: never refuse a fill on latency dr
 const ENTRY_MIN_BPS = 100n; // Buy almost at birth: price up >= +1% from create.
 const ENTRY_MAX_BPS = 2_000n; // ... and not already up more than +20%.
 const ENTRY_MAX_TRADES = 8; // Entry window: the coin's first 8 trades.
-const TAKE_PROFIT_BPS = 1_200n; // Sell all at +12% vs the buy price.
-const STOP_LOSS_BPS = -400n; // Sell all at -4% vs the buy price.
-const TRAIL_ARM_BPS = 1_000n; // Trailing stop arms once the peak is +10%.
-const TRAIL_DROP_BPS = 300n; // ... then sell on a 3% fall from the peak.
-const MAX_HOLD_SLOTS = 240; // Timeout: sell after ~96 seconds in a position.
+const TAKE_PROFIT_BPS = 1_000n; // Sell all at +10% vs the buy price.
+const STOP_LOSS_BPS = -500n; // Sell all at -5% vs the buy price.
+const TRAIL_ARM_BPS = 800n; // Trailing stop arms once the peak is +8%.
+const TRAIL_DROP_BPS = 400n; // ... then sell on a 4% fall from the peak.
+const MAX_HOLD_SLOTS = 300; // Timeout: sell after ~2 minutes in a position.
 
 /** Gain of price (q/t) versus base price (q0/t0), in basis points. */
 function gainBps(q: bigint, t: bigint, q0: bigint, t0: bigint): bigint {
